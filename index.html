@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<title>LFL Coding Challenge - Option 1</title>
+		<link rel="stylesheet" href="css/reset.css" />
+		<link rel="stylesheet" href="css/app.css" />
+	</head>
+
+	<body>
+		<div class="container">
+			<div>
+				<!--input fields to take an address from the user and use it as the origin-->
+				<div>
+					<label for="originAddress">Enter an origin address:</label>
+					<input id="originAddress" type="text" required size="70" value="510 Victoria, Venice, CA" />
+					<input type="submit" value="Get Distances" id="getDistancesButton" />
+				</div>
+				<div>
+
+					<!-- table that holds the list of destinations and their distances to the origin-->
+					<div class="tableWrapper">
+						<table id="distances">
+							<caption>
+								Distances from above location to various destinations in increasing order:
+							</caption>
+							<thead>
+								<tr>
+									<th class="location">Location</th>
+									<th>Distance in miles</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><span id="location1"></span></td>
+									<td><span id="distance1"></span></td>
+								</tr>
+								<tr class="odd">
+									<td><span id="location2"></span></td>
+									<td><span id="distance2"></span></td>
+								</tr>
+								<tr>
+									<td><span id="location3"></span></td>
+									<td><span id="distance3"></span></td>
+								</tr>
+								<tr class="odd">
+									<td><span id="location4"></span></td>
+									<td><span id="distance4"></span></td>
+								</tr>
+								<tr>
+									<td><span id="location5"></span></td>
+									<td><span id="distance5"></span></td>
+								</tr>
+								<tr class="odd">
+									<td><span id="location6"></span></td>
+									<td><span id="distance6"></span></td>
+								</tr>
+								<tr>
+									<td><span id="location7"></span></td>
+									<td><span id="distance7"></span></td>
+								</tr>
+							</tbody>
+						</table
+					</div>
+				</div>
+			</div>
+			<div class="spacer">
+				&nbsp;
+			</div>
+		</div>
+		<!-- map element. for some reason, putting the div#map inside the top div.container is screwing up the map display -->
+		<!-- this is probably because of the styles that google uses in maps -->
+		<div class="container">
+			<div id="map"></div>
+		</div>
+
+		<script>
+			/*
+			It is generally a bad idea to have variables running around in a global scope since they can be overwritten.
+			So, let's attempt to at least mask it with a namespace of LFL.
+			*/
+			//<![CDATA[
+			var LFL = {
+				locations : [],
+				origin : {},
+				destinations : [],
+				map: {}
+			};
+
+			var originAddress = document.getElementById("originAddress");
+			var autocomplete = null;
+
+			//populate our list of destination addresses.
+			LFL.destinations.push("Times Square, Manhattan, NY 10036");
+			LFL.destinations.push("13000 S Dakota 224, Keystone, SD 57751");
+			LFL.destinations.push("1600 Pennsylvania Ave NW, Washington, DC 20500");
+			LFL.destinations.push("Golden Gate Bridge, San Francisco, CA");
+			LFL.destinations.push("Stonehenge, A344, Amesbury, Wiltshire SP4 7DE, United Kingdom");
+			LFL.destinations.push("Great Wall of China");
+			LFL.destinations.push("Hollywood Sign, Los Angeles, CA");
+			//]]>
+		</script>
+		<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script src="js/initMap.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places&callback=initMap"></script>
+		<script src="js/script.js"></script>
+		<script>
+			//<![CDATA[
+			$(window).load(function() {
+				document.getElementById("getDistancesButton").addEventListener("click", function() {
+					var address = document.getElementById('originAddress').value;
+					if (address === "") {
+
+						alert("Make sure you enter a valid address");
+						return;
+
+					}
+					setOriginMarker(address);
+				});
+			});
+			//]]>
+		</script>
+	</body>
+
+</html>
