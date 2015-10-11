@@ -26,6 +26,10 @@
 function initMap() {
 
   setOriginMarker("510 Victoria, Venice, CA");
+  
+  //this will make the address text box a google places autocomplete
+  //so that the users can pick an address matched by google.
+  autocomplete = new google.maps.places.Autocomplete(originAddress);
 }
 
 /*
@@ -70,7 +74,9 @@ function setOriginMarker(address) {
       });
       
 	  // store the attributes in a global origin object defined in index.html
-      setOrigin(results[0].formatted_address, results[0].geometry.location.H, results[0].geometry.location.L);
+	  // on the geometry.location object, better to use the lat() and lng() accessors rather than the properties of the location
+	  // object as they tend to change from time to time. Using these methods ensure the correct lat/lng are passed every time.
+      setOrigin(results[0].formatted_address, results[0].geometry.location.lat(), results[0].geometry.location.lng());
 	  
 	  // compute the distances to the destinations from this origin.
       computeDistancesFromOrigin();
